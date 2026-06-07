@@ -22,10 +22,26 @@ class TetheringAccessibilityService : AccessibilityService() {
         
         for (node in nodes) {
             val parent = node.parent
-            if (parent != null && (parent.isClickable || parent.isCheckable)) {
-                parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            if (parent != null) {
+                // Check if already enabled. 
+                // Note: AccessibilityNodeInfo might have a Switch or Checkbox as a child or as the node itself.
+                val isAlreadyEnabled = parent.isChecked || (0 until parent.childCount).any { 
+                    parent.getChild(it)?.isChecked == true 
+                }
+
+                if (!isAlreadyEnabled) {
+                    if (parent.isClickable || parent.isCheckable) {
+                        parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                        // Delay before going back to ensure toggle is processed
+                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                            performGlobalAction(GLOBAL_ACTION_BACK)
+                        }, 500)
+                    }
+                } else {
+                    // Already ON, just go back
+                    performGlobalAction(GLOBAL_ACTION_BACK)
+                }
                 isTaskPending = false
-                performGlobalAction(GLOBAL_ACTION_BACK)
                 return
             }
         }
