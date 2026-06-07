@@ -4,12 +4,13 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:label="Ethernet Auto-Toggle"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         
@@ -20,7 +21,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".EthernetMonitorService" android:exported="false" />
+        <service 
+            android:name=".EthernetMonitorService" 
+            android:foregroundServiceType="connectedDevice"
+            android:exported="false" />
         
         <service
             android:name=".TetheringAccessibilityService"
