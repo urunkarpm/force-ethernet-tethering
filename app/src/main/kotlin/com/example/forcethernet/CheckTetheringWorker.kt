@@ -3,7 +3,6 @@ package com.example.forcethernet
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.provider.Settings
 import androidx.work.*
 import java.util.concurrent.TimeUnit
@@ -11,25 +10,30 @@ import java.util.concurrent.TimeUnit
 class CheckTetheringWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
         val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetwork
-        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
         
-        val isEthernetConnected = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) == true
-        
-        if (isEthernetConnected) {
-            // Trigger the automation
-            val intent = Intent(Settings.ACTION_TETHER_SETTINGS).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-            applicationContext.startActivity(intent)
-            
-            val serviceIntent = Intent(applicationContext, TetheringAccessibilityService::class.java).apply {
-                action = "ACTION_ENABLE_TETHERING"
-            }
-            applicationContext.startService(serviceIntent)
+        // 1. Check if Ethernet tethering is ALREADY active
+        if (TetheringUtils.isEthernetTetheringActive(connectivityManager)) {
+            return Result.success()
+        }
+
+        // 2. Check if Ethernet is plugged in (either as a network or tetherable interface)
+        if (TetheringUtils.isEthernetPluggedIn(connectivityManager)) {
+            triggerAutomation()
         }
         
         return Result.success()
+    }
+
+    private fun triggerAutomation() {
+        val intent = Intent(Settings.ACTION_TETHER_SETTINGS).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        applicationContext.startActivity(intent)
+        
+        val serviceIntent = Intent(applicationContext, TetheringAccessibilityService::class.java).apply {
+            action = "ACTION_ENABLE_TETHERING"
+        }
+        applicationContext.startService(serviceIntent)
     }
 
     companion object {

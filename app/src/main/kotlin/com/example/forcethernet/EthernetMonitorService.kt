@@ -36,7 +36,10 @@ class EthernetMonitorService : Service() {
         
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                triggerTethering()
+                // Only trigger if Ethernet tethering is NOT already active
+                if (!TetheringUtils.isEthernetTetheringActive(connectivityManager)) {
+                    triggerTethering()
+                }
             }
         }
         connectivityManager.registerNetworkCallback(request, networkCallback!!)
