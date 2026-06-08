@@ -1,0 +1,13 @@
+R_DEF: Internal format may change without notice
+local
+id btn_next
+id btn_skip
+id master_toggle
+id step_container
+id step_indicator
+layout activity_main
+layout activity_setup
+string accessibility_service_description
+string app_name
+style Theme.AppCompat.Light.NoActionBar
+xml accessibility_service_config

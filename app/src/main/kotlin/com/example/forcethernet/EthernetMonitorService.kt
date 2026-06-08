@@ -46,8 +46,8 @@ class EthernetMonitorService : Service() {
     }
 
     private fun triggerTethering() {
-        val intent = Intent(Settings.ACTION_TETHER_SETTINGS).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val intent = Intent("android.settings.TETHER_SETTINGS").apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         startActivity(intent)
         

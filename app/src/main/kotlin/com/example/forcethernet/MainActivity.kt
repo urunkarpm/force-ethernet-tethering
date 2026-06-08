@@ -40,26 +40,6 @@ class MainActivity : AppCompatActivity() {
                 stopMonitoring()
             }
         }
-
-        binding.btnAccessibilitySettings.setOnClickListener {
-            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        updateAccessibilityStatus()
-    }
-
-    private fun updateAccessibilityStatus() {
-        val enabled = isAccessibilityServiceEnabled()
-        binding.accessibilityStatus.text = if (enabled) {
-            binding.accessibilityStatus.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
-            "Accessibility Service: Enabled"
-        } else {
-            binding.accessibilityStatus.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
-            "Accessibility Service: Disabled"
-        }
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {

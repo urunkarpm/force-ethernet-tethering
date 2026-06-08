@@ -13,6 +13,7 @@ class BootReceiver : BroadcastReceiver() {
             if (isEnabled) {
                 val serviceIntent = Intent(context, EthernetMonitorService::class.java)
                 ContextCompat.startForegroundService(context, serviceIntent)
+                CheckTetheringWorker.enqueue(context)
             }
         }
     }

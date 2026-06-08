@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_service_description">Automatically toggles Ethernet tethering in settings.</string>
+    <string name="app_name">Ethernet Auto-Toggle</string>
+    <style name="Theme.AppCompat.Light.NoActionBar" parent="android:Theme.Material.Light.NoActionBar">
+        
+    </style>
+</resources>

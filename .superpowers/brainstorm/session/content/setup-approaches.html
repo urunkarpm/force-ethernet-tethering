@@ -1,0 +1,41 @@
+<h2>Setup Flow Approaches</h2>
+<p class="subtitle">How should we guide the user through the initial setup?</p>
+
+<div class="options">
+  <div class="option" data-choice="wizard" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Multi-step Wizard</h3>
+      <p>Focused, one permission at a time. High completion rate for complex setups.</p>
+      <div class="mockup" style="margin-top: 10px; height: 100px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px;">
+        <div style="text-align: center;">
+          <div style="font-weight: bold; margin-bottom: 5px;">Step 1 of 3</div>
+          <div style="font-size: 0.8em; color: #666;">Accessibility Service</div>
+          <button class="mock-button" style="padding: 4px 12px; font-size: 0.8em; margin-top: 5px;">Grant</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="checklist" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Single Checklist</h3>
+      <p>All-in-one view. User sees everything required immediately. Feels faster.</p>
+      <div class="mockup" style="margin-top: 10px; height: 100px; padding: 10px; background: #f5f5f5; border-radius: 4px;">
+        <div style="display: flex; align-items: center; margin-bottom: 5px; font-size: 0.8em;">
+          <div style="width: 12px; height: 12px; border: 1px solid #ccc; margin-right: 8px;"></div>
+          Accessibility Service
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 5px; font-size: 0.8em;">
+          <div style="width: 12px; height: 12px; border: 1px solid #ccc; margin-right: 8px;"></div>
+          Notifications
+        </div>
+        <div style="display: flex; align-items: center; font-size: 0.8em;">
+          <div style="width: 12px; height: 12px; border: 1px solid #ccc; margin-right: 8px;"></div>
+          Battery Optimization
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
