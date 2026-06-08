@@ -31,14 +31,30 @@ class MainActivity : AppCompatActivity() {
 
         val isEnabled = prefs.getBoolean("master_enabled", false)
         binding.masterToggle.isChecked = isEnabled
+        updateStatusUI(isEnabled)
+
+        if (isEnabled) {
+            startMonitoring()
+        }
 
         binding.masterToggle.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("master_enabled", isChecked).apply()
+            updateStatusUI(isChecked)
             if (isChecked) {
                 startMonitoring()
             } else {
                 stopMonitoring()
             }
+        }
+    }
+
+    private fun updateStatusUI(isEnabled: Boolean) {
+        if (isEnabled) {
+            binding.statusText.text = "ENABLED"
+            binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.status_enabled))
+        } else {
+            binding.statusText.text = "DISABLED"
+            binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.status_disabled))
         }
     }
 
