@@ -18,6 +18,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isSetupComplete = prefs.getBoolean("setup_complete", false)
+        if (!isSetupComplete) {
+            startActivity(Intent(this, SetupActivity::class.java))
+            finish()
+            return
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -79,17 +87,10 @@ class MainActivity : AppCompatActivity() {
     private fun stopMonitoring() {
         val intent = Intent(this, EthernetMonitorService::class.java)
         stopService(intent)
-        WorkManager.getInstance(this).cancelUniqueWork("check_tethering")
+        WorkManager.getInstance(this).cancelUniqueWork("check_tether")
     }
 
     private fun schedulePeriodicCheck() {
-        val request = PeriodicWorkRequestBuilder<CheckTetheringWorker>(15, TimeUnit.MINUTES)
-            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "check_tethering",
-            ExistingPeriodicWorkPolicy.KEEP,
-            request
-        )
+        CheckTetheringWorker.enqueue(this)
     }
 }
