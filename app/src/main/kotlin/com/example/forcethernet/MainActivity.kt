@@ -51,11 +51,10 @@ class MainActivity : AppCompatActivity() {
     private fun updateStatusUI(isEnabled: Boolean) {
         if (isEnabled) {
             binding.statusText.text = "ENABLED"
-            binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.status_enabled))
         } else {
             binding.statusText.text = "DISABLED"
-            binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.status_disabled))
         }
+        binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {
