@@ -5,6 +5,7 @@
     <color name="dark_gray">#1C1C1E</color>
     <color name="blue_vibrant">#0A84FF</color>
     <color name="blue_glow">#800A84FF</color>
+    <color name="red_vibrant">#B00020</color>
     <color name="white">#FFFFFF</color>
     <color name="muted_gray">#8E8E93</color>
 
@@ -19,7 +20,7 @@
     <color name="on_surface">@color/white</color>
     <color name="on_surface_variant">@color/muted_gray</color>
 
-    <color name="error">#FF453A</color>
+    <color name="error">@color/red_vibrant</color>
     <color name="on_error">@color/white</color>
     <color name="status_enabled">@color/blue_vibrant</color>
     <color name="status_disabled">@color/muted_gray</color>
