@@ -12,6 +12,8 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -90,10 +92,15 @@ class SetupActivity : AppCompatActivity() {
             }
             SetupStep.BATTERY -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                        data = Uri.parse("package:$packageName")
+                    try {
+                        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                            data = Uri.parse("package:$packageName")
+                        }
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        // Fallback if the direct intent fails
+                        startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
                     }
-                    startActivity(intent)
                 } else {
                     advanceStep()
                 }
@@ -103,68 +110,97 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun advanceStep() {
+        val entries = SetupStep.entries
         val nextOrdinal = currentStep.ordinal + 1
-        if (nextOrdinal < SetupStep.entries.size) {
-            currentStep = SetupStep.entries[nextOrdinal]
-            updateUI()
-        } else if (currentStep == SetupStep.BATTERY) {
-            currentStep = SetupStep.COMPLETE
+        if (nextOrdinal < entries.size) {
+            currentStep = entries[nextOrdinal]
             updateUI()
         }
     }
 
     private fun updateUI() {
-        if (currentStep == SetupStep.COMPLETE) {
-            finishSetup()
-            return
-        }
-
-        binding.stepIndicator.text = "Step ${currentStep.ordinal + 1} of 4"
+        val totalSteps = SetupStep.entries.size
+        val progress = ((currentStep.ordinal + 1) * 100) / totalSteps
+        binding.stepProgress.setProgressCompat(progress, true)
+        
+        binding.stepIndicator.text = "Step ${currentStep.ordinal + 1} of $totalSteps"
         binding.stepContainer.removeAllViews()
 
-        val titleView = TextView(this).apply {
-            textSize = 22f
-            setPadding(0, 0, 0, 16)
-            gravity = Gravity.CENTER
-            setTextColor(ContextCompat.getColor(context, android.R.color.black))
+        val context = this
+        val stepLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER
+            }
         }
 
-        val descriptionView = TextView(this).apply {
-            textSize = 16f
+        val iconView = TextView(context).apply {
+            textSize = 64f
             gravity = Gravity.CENTER
+            setPadding(0, 0, 0, 32)
+        }
+
+        val titleView = TextView(context).apply {
+            textSize = 28f
+            setPadding(0, 0, 0, 16)
+            gravity = Gravity.CENTER
+            setTextColor(ContextCompat.getColor(context, android.R.color.white))
+            typeface = android.graphics.Typeface.DEFAULT_BOLD
+        }
+
+        val descriptionView = TextView(context).apply {
+            textSize = 17f
+            gravity = Gravity.CENTER
+            setTextColor(ContextCompat.getColor(context, R.color.on_surface_variant))
             alpha = 0.8f
+            setLineSpacing(0f, 1.3f)
         }
 
         when (currentStep) {
             SetupStep.WELCOME -> {
-                titleView.text = "Welcome to Force Ethernet"
+                iconView.text = "👋"
+                titleView.text = "Welcome"
                 descriptionView.text = "This app will help you keep Ethernet Tethering enabled automatically when a cable is connected."
                 binding.btnSkip.visibility = View.GONE
                 binding.btnNext.text = "Get Started"
             }
             SetupStep.NOTIFICATIONS -> {
+                iconView.text = "🔔"
                 titleView.text = "Stay Informed"
                 descriptionView.text = "Grant notification permission so the app can show the status of Ethernet monitoring."
                 binding.btnSkip.visibility = View.VISIBLE
                 binding.btnNext.text = "Grant Permission"
             }
             SetupStep.ACCESSIBILITY -> {
-                titleView.text = "Accessibility Service"
-                descriptionView.text = "The app needs Accessibility access to click the 'Ethernet tethering' toggle for you.\n\nFind 'Force Ethernet' in settings and turn it ON."
+                iconView.text = "⚙️"
+                titleView.text = "Accessibility"
+                descriptionView.text = "The app needs Accessibility access to click the 'Ethernet tethering' toggle for you.\n\nFind 'Force Ethernet' and turn it ON."
                 binding.btnSkip.visibility = View.GONE
                 binding.btnNext.text = "Open Settings"
             }
             SetupStep.BATTERY -> {
-                titleView.text = "Battery Optimization"
+                iconView.text = "⚡"
+                titleView.text = "Battery"
                 descriptionView.text = "To ensure stable monitoring in the background, please exclude the app from battery optimizations."
                 binding.btnSkip.visibility = View.VISIBLE
                 binding.btnNext.text = "Ignore Optimization"
             }
-            else -> {}
+            SetupStep.COMPLETE -> {
+                iconView.text = "🎉"
+                titleView.text = "You're All Set!"
+                descriptionView.text = "Setup is complete. The app will now monitor your Ethernet connection."
+                binding.btnSkip.visibility = View.GONE
+                binding.btnNext.text = "Finish"
+            }
         }
 
-        binding.stepContainer.addView(titleView)
-        binding.stepContainer.addView(descriptionView)
+        stepLayout.addView(iconView)
+        stepLayout.addView(titleView)
+        stepLayout.addView(descriptionView)
+        binding.stepContainer.addView(stepLayout)
     }
 
     private fun hasNotificationPermission(): Boolean {
