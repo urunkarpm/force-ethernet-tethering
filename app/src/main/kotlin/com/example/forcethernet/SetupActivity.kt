@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +14,6 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -119,88 +120,71 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        val totalSteps = SetupStep.entries.size
-        val progress = ((currentStep.ordinal + 1) * 100) / totalSteps
-        binding.stepProgress.setProgressCompat(progress, true)
-        
-        binding.stepIndicator.text = "Step ${currentStep.ordinal + 1} of $totalSteps"
+        binding.stepProgress.progress = (currentStep.ordinal + 1) * 20 // 5 steps total
+
         binding.stepContainer.removeAllViews()
 
-        val context = this
-        val stepLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER
-            }
+        val iconView = TextView(this).apply {
+            textSize = 48f
+            setPadding(0, 0, 0, 24)
+            gravity = Gravity.CENTER
         }
 
-        val iconView = TextView(context).apply {
-            textSize = 64f
+        val titleView = TextView(this).apply {
+            textSize = 24f
+            setPadding(0, 0, 0, 12)
             gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 32)
+            setTextColor(Color.WHITE)
+            setTypeface(null, Typeface.BOLD)
         }
 
-        val titleView = TextView(context).apply {
-            textSize = 28f
-            setPadding(0, 0, 0, 16)
+        val descriptionView = TextView(this).apply {
+            textSize = 16f
             gravity = Gravity.CENTER
-            setTextColor(ContextCompat.getColor(context, android.R.color.white))
-            typeface = android.graphics.Typeface.DEFAULT_BOLD
-        }
-
-        val descriptionView = TextView(context).apply {
-            textSize = 17f
-            gravity = Gravity.CENTER
-            setTextColor(ContextCompat.getColor(context, R.color.on_surface_variant))
-            alpha = 0.8f
-            setLineSpacing(0f, 1.3f)
+            setTextColor(ContextCompat.getColor(this@SetupActivity, R.color.muted_gray))
         }
 
         when (currentStep) {
             SetupStep.WELCOME -> {
                 iconView.text = "👋"
-                titleView.text = "Welcome"
-                descriptionView.text = "This app will help you keep Ethernet Tethering enabled automatically when a cable is connected."
+                titleView.text = getString(R.string.setup_welcome_title)
+                descriptionView.text = getString(R.string.setup_welcome_desc)
                 binding.btnSkip.visibility = View.GONE
-                binding.btnNext.text = "Get Started"
+                binding.btnNext.text = getString(R.string.setup_btn_get_started)
             }
             SetupStep.NOTIFICATIONS -> {
                 iconView.text = "🔔"
-                titleView.text = "Stay Informed"
-                descriptionView.text = "Grant notification permission so the app can show the status of Ethernet monitoring."
+                titleView.text = getString(R.string.setup_notifications_title)
+                descriptionView.text = getString(R.string.setup_notifications_desc)
                 binding.btnSkip.visibility = View.VISIBLE
-                binding.btnNext.text = "Grant Permission"
+                binding.btnNext.text = getString(R.string.setup_btn_grant_permission)
             }
             SetupStep.ACCESSIBILITY -> {
-                iconView.text = "⚙️"
-                titleView.text = "Accessibility"
-                descriptionView.text = "The app needs Accessibility access to click the 'Ethernet tethering' toggle for you.\n\nFind 'Force Ethernet' and turn it ON."
+                iconView.text = "♿"
+                titleView.text = getString(R.string.setup_accessibility_title)
+                descriptionView.text = getString(R.string.setup_accessibility_desc)
                 binding.btnSkip.visibility = View.GONE
-                binding.btnNext.text = "Open Settings"
+                binding.btnNext.text = getString(R.string.setup_btn_open_settings)
             }
             SetupStep.BATTERY -> {
-                iconView.text = "⚡"
-                titleView.text = "Battery"
-                descriptionView.text = "To ensure stable monitoring in the background, please exclude the app from battery optimizations."
+                iconView.text = "🔋"
+                titleView.text = getString(R.string.setup_battery_title)
+                descriptionView.text = getString(R.string.setup_battery_desc)
                 binding.btnSkip.visibility = View.VISIBLE
-                binding.btnNext.text = "Ignore Optimization"
+                binding.btnNext.text = getString(R.string.setup_btn_ignore_optimization)
             }
             SetupStep.COMPLETE -> {
-                iconView.text = "🎉"
-                titleView.text = "You're All Set!"
-                descriptionView.text = "Setup is complete. The app will now monitor your Ethernet connection."
+                iconView.text = "✅"
+                titleView.text = getString(R.string.setup_complete_title)
+                descriptionView.text = getString(R.string.setup_complete_desc)
                 binding.btnSkip.visibility = View.GONE
-                binding.btnNext.text = "Finish"
+                binding.btnNext.text = getString(R.string.setup_btn_finish)
             }
         }
 
-        stepLayout.addView(iconView)
-        stepLayout.addView(titleView)
-        stepLayout.addView(descriptionView)
-        binding.stepContainer.addView(stepLayout)
+        binding.stepContainer.addView(iconView)
+        binding.stepContainer.addView(titleView)
+        binding.stepContainer.addView(descriptionView)
     }
 
     private fun hasNotificationPermission(): Boolean {

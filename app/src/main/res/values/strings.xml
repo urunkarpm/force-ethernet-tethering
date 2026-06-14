@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ethernet Auto-Toggle</string>
+    <string name="app_name">Force Ethernet</string>
     <string name="accessibility_service_description">Automatically toggles Ethernet tethering in settings.</string>
+
+    <!-- Setup Wizard Strings -->
+    <string name="setup_welcome_title">Welcome to Force Ethernet</string>
+    <string name="setup_welcome_desc">Keep Ethernet Tethering enabled automatically when a cable is connected.</string>
+    <string name="setup_btn_get_started">Get Started</string>
+
+    <string name="setup_notifications_title">Stay Informed</string>
+    <string name="setup_notifications_desc">Get alerts when tethering starts or stops.</string>
+    <string name="setup_btn_grant_permission">Grant Permission</string>
+
+    <string name="setup_accessibility_title">Accessibility Service</string>
+    <string name="setup_accessibility_desc">Needed to automatically toggle tethering settings.\n\nFind \'Force Ethernet\' and turn it ON.</string>
+    <string name="setup_btn_open_settings">Open Settings</string>
+
+    <string name="setup_battery_title">Battery Optimization</string>
+    <string name="setup_battery_desc">Exclude app from optimization for stable background monitoring.</string>
+    <string name="setup_btn_ignore_optimization">Ignore Optimization</string>
+
+    <string name="setup_complete_title">You\'re all set!</string>
+    <string name="setup_complete_desc">Tethering will now stay enabled whenever you connect an Ethernet cable.</string>
+    <string name="setup_btn_finish">Finish Setup</string>
 </resources>
