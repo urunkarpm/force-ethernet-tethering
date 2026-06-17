@@ -28,4 +28,8 @@
     <string name="status_label">STATUS</string>
     <string name="status_enabled">ENABLED</string>
     <string name="status_disabled">DISABLED</string>
+
+    <!-- Notification Actions -->
+    <string name="action_enable_now">ENABLE NOW</string>
+    <string name="action_dismiss_silence">DISMISS (5 MINS)</string>
 </resources>
