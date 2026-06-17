@@ -16,6 +16,11 @@ class EthernetMonitorService : Service() {
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var lastPluggedInState = false
+    private var lastTriggerTime = 0L
+
+    companion object {
+        var silenceUntil = 0L
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,13 +42,18 @@ class EthernetMonitorService : Service() {
         android.util.Log.d("ForceEthernet", "startPolling: Polling started")
         serviceScope.launch {
             while (isActive) {
+                val now = System.currentTimeMillis()
                 val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
                 val isTetheringActive = TetheringUtils.isEthernetTetheringActive()
                 
-                android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn (last=$lastPluggedInState), TetheringActive=$isTetheringActive")
+                val inSilence = now < silenceUntil
+                val inCooldown = now - lastTriggerTime < 30000
                 
-                if (isPluggedIn && !lastPluggedInState && !isTetheringActive) {
+                android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn, TetheringActive=$isTetheringActive, Silence=$inSilence, Cooldown=$inCooldown")
+                
+                if (isPluggedIn && !isTetheringActive && !inSilence && !inCooldown) {
                     android.util.Log.d("ForceEthernet", "Triggering tethering logic!")
+                    lastTriggerTime = now
                     withContext(Dispatchers.Main) {
                         triggerTethering()
                     }
@@ -62,8 +72,13 @@ class EthernetMonitorService : Service() {
         
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                // Only trigger if Ethernet tethering is NOT already active
-                if (!TetheringUtils.isEthernetTetheringActive()) {
+                val now = System.currentTimeMillis()
+                val inSilence = now < silenceUntil
+                val inCooldown = now - lastTriggerTime < 30000
+                
+                // Only trigger if Ethernet tethering is NOT already active and not in silence/cooldown
+                if (!TetheringUtils.isEthernetTetheringActive() && !inSilence && !inCooldown) {
+                    lastTriggerTime = now
                     triggerTethering()
                 }
             }
