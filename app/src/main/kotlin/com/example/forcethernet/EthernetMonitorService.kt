@@ -37,8 +37,8 @@ class EthernetMonitorService : Service() {
         android.util.Log.d("ForceEthernet", "startPolling: Polling started")
         serviceScope.launch {
             while (isActive) {
-                val isPluggedIn = TetheringUtils.isEthernetPluggedIn(connectivityManager)
-                val isTetheringActive = TetheringUtils.isEthernetTetheringActive(connectivityManager)
+                val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
+                val isTetheringActive = TetheringUtils.isEthernetTetheringActive()
                 
                 android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn (last=$lastPluggedInState), TetheringActive=$isTetheringActive")
                 
@@ -63,7 +63,7 @@ class EthernetMonitorService : Service() {
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 // Only trigger if Ethernet tethering is NOT already active
-                if (!TetheringUtils.isEthernetTetheringActive(connectivityManager)) {
+                if (!TetheringUtils.isEthernetTetheringActive()) {
                     triggerTethering()
                 }
             }

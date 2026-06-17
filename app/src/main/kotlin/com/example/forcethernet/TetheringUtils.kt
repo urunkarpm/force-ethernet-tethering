@@ -4,7 +4,7 @@ import android.net.ConnectivityManager
 import java.net.NetworkInterface
 
 object TetheringUtils {
-    fun isEthernetTetheringActive(cm: ConnectivityManager): Boolean {
+    fun isEthernetTetheringActive(): Boolean {
         try {
             val interfaces = NetworkInterface.getNetworkInterfaces()
             if (interfaces != null) {
@@ -13,7 +13,8 @@ object TetheringUtils {
                     // Check if interface is up and has an IP address
                     if (intf.isUp && intf.inetAddresses.hasMoreElements()) {
                         // Look for common tethering interface names
-                        if (name.contains("rndis") || name.contains("usb") || name.contains("tether")) {
+                        // Refined to "rndis" or "tether" to avoid broad "usb" matches
+                        if (name.contains("rndis") || name.contains("tether")) {
                             android.util.Log.d("ForceEthernet", "Active tethering interface detected: ${intf.name}")
                             return true
                         }
@@ -26,7 +27,7 @@ object TetheringUtils {
         return false
     }
 
-    fun isEthernetPluggedIn(cm: ConnectivityManager): Boolean {
+    fun isEthernetPluggedIn(): Boolean {
         try {
             val interfaces = NetworkInterface.getNetworkInterfaces()
             if (interfaces != null) {

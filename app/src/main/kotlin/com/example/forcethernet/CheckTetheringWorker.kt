@@ -9,15 +9,13 @@ import java.util.concurrent.TimeUnit
 
 class CheckTetheringWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
-        val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        
         // 1. Check if Ethernet tethering is ALREADY active
-        if (TetheringUtils.isEthernetTetheringActive(connectivityManager)) {
+        if (TetheringUtils.isEthernetTetheringActive()) {
             return Result.success()
         }
 
         // 2. Check if Ethernet is plugged in (either as a network or tetherable interface)
-        if (TetheringUtils.isEthernetPluggedIn(connectivityManager)) {
+        if (TetheringUtils.isEthernetPluggedIn()) {
             triggerAutomation()
         }
         
