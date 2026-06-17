@@ -5,19 +5,14 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 
 class TetheringAccessibilityService : AccessibilityService() {
-    private var isTaskPending = false
 
     companion object {
         private const val TETHERING_TEXT = "Ethernet tethering"
+        @Volatile
+        var isTaskPending = false
     }
 
-    override fun onStartCommand(intent: android.content.Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == "ACTION_ENABLE_TETHERING") {
-            isTaskPending = true
-        }
-        return super.onStartCommand(intent, flags, startId)
-    }
-
+    @Suppress("DEPRECATION")
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (!isTaskPending) return
         
@@ -30,46 +25,66 @@ class TetheringAccessibilityService : AccessibilityService() {
         }
 
         for (node in nodes) {
-            val parent = node.parent
-            if (parent != null) {
-                var isAlreadyEnabled = parent.isChecked
-                if (!isAlreadyEnabled) {
-                    for (i in 0 until parent.childCount) {
-                        val child = parent.getChild(i)
-                        if (child != null) {
-                            if (child.isChecked) {
-                                isAlreadyEnabled = true
-                            }
-                            child.recycle()
+            val parent = node.parent ?: continue
+            var switchNode: AccessibilityNodeInfo? = null
+            var clickableNode: AccessibilityNodeInfo? = null
+            
+            // Find the Switch sibling and a clickable node
+            for (i in 0 until parent.childCount) {
+                val child = parent.getChild(i) ?: continue
+                if (child.className?.toString()?.contains("Switch") == true || child.isCheckable) {
+                    switchNode = child
+                }
+                if (child.isClickable) {
+                    clickableNode = child
+                }
+                if (switchNode == null || clickableNode == null) {
+                    // Search one level deeper for the switch in case it's wrapped
+                    for (j in 0 until child.childCount) {
+                        val grandChild = child.getChild(j) ?: continue
+                        if (grandChild.className?.toString()?.contains("Switch") == true || grandChild.isCheckable) {
+                            switchNode = grandChild
                         }
-                        if (isAlreadyEnabled) break
                     }
                 }
+            }
 
-                if (!isAlreadyEnabled) {
-                    if (parent.isClickable || parent.isCheckable) {
-                        parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                            performGlobalAction(GLOBAL_ACTION_BACK)
-                        }, 500)
-                        isTaskPending = false
-                    }
-                } else {
-                    performGlobalAction(GLOBAL_ACTION_BACK)
+            // Fallback to parent if no specific clickable node found
+            if (clickableNode == null && parent.isClickable) {
+                clickableNode = parent
+            }
+
+            val isAlreadyEnabled = switchNode?.isChecked ?: parent.isChecked
+
+            if (!isAlreadyEnabled) {
+                if (clickableNode != null) {
+                    clickableNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        performGlobalAction(GLOBAL_ACTION_BACK)
+                    }, 500)
+                    isTaskPending = false
+                } else if (switchNode != null && switchNode.isClickable) {
+                    switchNode.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        performGlobalAction(GLOBAL_ACTION_BACK)
+                    }, 500)
                     isTaskPending = false
                 }
-                parent.recycle()
-                if (!isTaskPending) break
+            } else {
+                // Already enabled
+                performGlobalAction(GLOBAL_ACTION_BACK)
+                isTaskPending = false
             }
-            node.recycle()
+            parent.recycle()
+            if (!isTaskPending) break
         }
         
-        // Clean up remaining nodes in the list
+        // Clean up remaining nodes
         for (node in nodes) {
             try {
                 node.recycle()
             } catch (e: Exception) {
-                // Ignore already recycled
+                // Ignore
             }
         }
         rootNode.recycle()

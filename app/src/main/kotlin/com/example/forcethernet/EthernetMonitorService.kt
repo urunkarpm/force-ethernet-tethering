@@ -9,10 +9,13 @@ import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.*
 
 class EthernetMonitorService : Service() {
     private lateinit var connectivityManager: ConnectivityManager
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
+    private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
+    private var lastPluggedInState = false
 
     override fun onCreate() {
         super.onCreate()
@@ -20,17 +23,40 @@ class EthernetMonitorService : Service() {
         createNotificationChannel()
         
         val notification = createNotification()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
         } else {
             startForeground(1, notification)
         }
         
         registerNetworkCallback()
+        startPolling()
+    }
+
+    private fun startPolling() {
+        android.util.Log.d("ForceEthernet", "startPolling: Polling started")
+        serviceScope.launch {
+            while (isActive) {
+                val isPluggedIn = TetheringUtils.isEthernetPluggedIn(connectivityManager)
+                val isTetheringActive = TetheringUtils.isEthernetTetheringActive(connectivityManager)
+                
+                android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn (last=$lastPluggedInState), TetheringActive=$isTetheringActive")
+                
+                if (isPluggedIn && !lastPluggedInState && !isTetheringActive) {
+                    android.util.Log.d("ForceEthernet", "Triggering tethering logic!")
+                    withContext(Dispatchers.Main) {
+                        triggerTethering()
+                    }
+                }
+                lastPluggedInState = isPluggedIn
+                delay(3000) // Poll every 3 seconds
+            }
+        }
     }
 
     private fun registerNetworkCallback() {
         val request = NetworkRequest.Builder()
+            .clearCapabilities() // Remove default requirements like INTERNET
             .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
             .build()
         
@@ -46,15 +72,12 @@ class EthernetMonitorService : Service() {
     }
 
     private fun triggerTethering() {
+        TetheringAccessibilityService.isTaskPending = true
+        
         val intent = Intent("android.settings.TETHER_SETTINGS").apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         startActivity(intent)
-        
-        val serviceIntent = Intent(this, TetheringAccessibilityService::class.java).apply {
-            action = "ACTION_ENABLE_TETHERING"
-        }
-        startService(serviceIntent)
     }
 
     private fun createNotificationChannel() {
@@ -79,6 +102,7 @@ class EthernetMonitorService : Service() {
     }
 
     override fun onDestroy() {
+        serviceScope.cancel()
         networkCallback?.let {
             connectivityManager.unregisterNetworkCallback(it)
         }

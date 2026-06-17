@@ -1,33 +1,36 @@
 package com.example.forcethernet
 
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import java.net.NetworkInterface
 
 object TetheringUtils {
     fun isEthernetTetheringActive(cm: ConnectivityManager): Boolean {
-        return try {
-            val method = cm.javaClass.getMethod("getTetheredIfaces")
-            val tethered = method.invoke(cm) as Array<*>
-            tethered.any { (it as String).contains("eth") }
-        } catch (e: Exception) {
-            false
-        }
+        // Because reflection on ConnectivityManager is blocked on newer Android versions,
+        // we return false here so the accessibility service always opens and checks 
+        // the actual UI toggle state. The accessibility service will back out 
+        // safely if it's already enabled.
+        return false
     }
 
     fun isEthernetPluggedIn(cm: ConnectivityManager): Boolean {
-        // Check active/available networks for Ethernet transport
-        val hasEthernetNetwork = cm.allNetworks.any { network ->
-            cm.getNetworkCapabilities(network)?.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) == true
-        }
-        if (hasEthernetNetwork) return true
-
-        // Check if interface is detected by system but not yet tethered/connected
-        return try {
-            val method = cm.javaClass.getMethod("getTetherableIfaces")
-            val tetherable = method.invoke(cm) as Array<*>
-            tetherable.any { (it as String).contains("eth") }
+        try {
+            val interfaces = NetworkInterface.getNetworkInterfaces()
+            if (interfaces != null) {
+                for (intf in interfaces) {
+                    android.util.Log.d("ForceEthernet", "Detected interface: name=${intf.name}, isUp=${intf.isUp}, isLoopback=${intf.isLoopback}, isVirtual=${intf.isVirtual}")
+                    // USB ethernet adapters typically show up as "eth0", "eth1", etc.
+                    // Also check for "rndis" or "usb" which some manufacturers use
+                    if (intf.isUp && !intf.isLoopback && !intf.isVirtual) {
+                        if (intf.name.startsWith("eth") || intf.name.startsWith("rndis") || intf.name.startsWith("usb")) {
+                            android.util.Log.d("ForceEthernet", "Matched Ethernet/USB interface: ${intf.name}")
+                            return true
+                        }
+                    }
+                }
+            }
         } catch (e: Exception) {
-            false
+            android.util.Log.e("ForceEthernet", "Error checking interfaces", e)
         }
+        return false
     }
 }

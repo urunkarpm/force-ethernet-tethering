@@ -25,15 +25,12 @@ class CheckTetheringWorker(context: Context, params: WorkerParameters) : Worker(
     }
 
     private fun triggerAutomation() {
+        TetheringAccessibilityService.isTaskPending = true
+        
         val intent = Intent("android.settings.TETHER_SETTINGS").apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         applicationContext.startActivity(intent)
-        
-        val serviceIntent = Intent(applicationContext, TetheringAccessibilityService::class.java).apply {
-            action = "ACTION_ENABLE_TETHERING"
-        }
-        applicationContext.startService(serviceIntent)
     }
 
     companion object {

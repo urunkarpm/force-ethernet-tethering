@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -11,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@android:drawable/ic_menu_preferences"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.ForceEthernet">
         
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
@@ -26,8 +29,10 @@
 
         <service 
             android:name=".EthernetMonitorService" 
-            android:foregroundServiceType="connectedDevice"
-            android:exported="false" />
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Automating Ethernet Tethering" />
+        </service>
         
         <service
             android:name=".TetheringAccessibilityService"
