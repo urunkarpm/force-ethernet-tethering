@@ -10,16 +10,16 @@ import android.os.IBinder
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.*
+import java.util.concurrent.atomic.AtomicLong
 
 class EthernetMonitorService : Service() {
     private lateinit var connectivityManager: ConnectivityManager
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
-    private var lastPluggedInState = false
-    private var lastTriggerTime = 0L
+    private val lastTriggerTime = AtomicLong(0L)
 
     companion object {
-        var silenceUntil = 0L
+        val silenceUntil = AtomicLong(0L)
     }
 
     override fun onCreate() {
@@ -46,19 +46,18 @@ class EthernetMonitorService : Service() {
                 val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
                 val isTetheringActive = TetheringUtils.isEthernetTetheringActive()
                 
-                val inSilence = now < silenceUntil
-                val inCooldown = now - lastTriggerTime < 30000
+                val inSilence = now < silenceUntil.get()
+                val inCooldown = now - lastTriggerTime.get() < 30000
                 
                 android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn, TetheringActive=$isTetheringActive, Silence=$inSilence, Cooldown=$inCooldown")
                 
                 if (isPluggedIn && !isTetheringActive && !inSilence && !inCooldown) {
                     android.util.Log.d("ForceEthernet", "Triggering tethering logic!")
-                    lastTriggerTime = now
+                    lastTriggerTime.set(now)
                     withContext(Dispatchers.Main) {
                         triggerTethering()
                     }
                 }
-                lastPluggedInState = isPluggedIn
                 delay(3000) // Poll every 3 seconds
             }
         }
@@ -73,13 +72,15 @@ class EthernetMonitorService : Service() {
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 val now = System.currentTimeMillis()
-                val inSilence = now < silenceUntil
-                val inCooldown = now - lastTriggerTime < 30000
+                val inSilence = now < silenceUntil.get()
+                val inCooldown = now - lastTriggerTime.get() < 30000
                 
                 // Only trigger if Ethernet tethering is NOT already active and not in silence/cooldown
                 if (!TetheringUtils.isEthernetTetheringActive() && !inSilence && !inCooldown) {
-                    lastTriggerTime = now
-                    triggerTethering()
+                    lastTriggerTime.set(now)
+                    serviceScope.launch(Dispatchers.Main) {
+                        triggerTethering()
+                    }
                 }
             }
         }
