@@ -5,10 +5,24 @@ import java.net.NetworkInterface
 
 object TetheringUtils {
     fun isEthernetTetheringActive(cm: ConnectivityManager): Boolean {
-        // Because reflection on ConnectivityManager is blocked on newer Android versions,
-        // we return false here so the accessibility service always opens and checks 
-        // the actual UI toggle state. The accessibility service will back out 
-        // safely if it's already enabled.
+        try {
+            val interfaces = NetworkInterface.getNetworkInterfaces()
+            if (interfaces != null) {
+                for (intf in interfaces) {
+                    val name = intf.name.lowercase()
+                    // Check if interface is up and has an IP address
+                    if (intf.isUp && intf.inetAddresses.hasMoreElements()) {
+                        // Look for common tethering interface names
+                        if (name.contains("rndis") || name.contains("usb") || name.contains("tether")) {
+                            android.util.Log.d("ForceEthernet", "Active tethering interface detected: ${intf.name}")
+                            return true
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ForceEthernet", "Error scanning interfaces for tethering", e)
+        }
         return false
     }
 
