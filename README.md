@@ -19,7 +19,7 @@ The primary goal of this application is to ensure that Ethernet tethering remain
 The app utilizes a foreground service combined with network callbacks and accessibility services to navigate system settings and enforce the tethering state. By observing network interface changes, it can react instantly to hardware events, ensuring your shared connection is always ready.
 
 
-**Application**
+### Application
 
 This solution is ideal if you have a spare 5G smartphone with a compatible SIM card and an unlimited data plan. Simply recharge your data plan as needed and connect the spare phone to a USB Ethernet adapter (dongle).
 
