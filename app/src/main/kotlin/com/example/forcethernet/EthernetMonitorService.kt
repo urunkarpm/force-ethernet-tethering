@@ -65,6 +65,7 @@ class EthernetMonitorService : Service() {
     private fun startPolling() {
         android.util.Log.d("ForceEthernet", "startPolling: Polling started")
         serviceScope.launch {
+            var lastNotificationRefresh = 0L
             while (isActive) {
                 val now = System.currentTimeMillis()
                 val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
@@ -75,6 +76,12 @@ class EthernetMonitorService : Service() {
                 
                 android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn, TetheringActive=$isTetheringActive, Silence=$inSilence, Cooldown=$inCooldown")
                 
+                // Refresh notification once a minute if silenced to update countdown
+                if (inSilence && now - lastNotificationRefresh > 60000) {
+                    lastNotificationRefresh = now
+                    updateNotification()
+                }
+
                 if (isPluggedIn && !isTetheringActive && !inSilence && !inCooldown) {
                     android.util.Log.d("ForceEthernet", "Triggering tethering logic!")
                     lastTriggerTime.set(now)
@@ -139,9 +146,9 @@ class EthernetMonitorService : Service() {
         
         val contentText = if (isSilenced) {
             val remainingMins = ((silenceTime - now) / 60000) + 1
-            "Monitoring SILENCED ($remainingMins mins left)"
+            getString(R.string.status_silenced, remainingMins.toInt())
         } else {
-            "Watching for cable connection..."
+            getString(R.string.status_watching)
         }
 
         val silenceIntent = Intent(this, EthernetMonitorService::class.java).apply {
