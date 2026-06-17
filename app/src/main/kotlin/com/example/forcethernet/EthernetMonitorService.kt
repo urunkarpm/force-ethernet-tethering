@@ -66,6 +66,9 @@ class EthernetMonitorService : Service() {
         android.util.Log.d("ForceEthernet", "startPolling: Polling started")
         serviceScope.launch {
             var lastNotificationRefresh = 0L
+            var lastPluggedIn = false
+            var lastTetheringActive = false
+
             while (isActive) {
                 val now = System.currentTimeMillis()
                 val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
@@ -76,8 +79,13 @@ class EthernetMonitorService : Service() {
                 
                 android.util.Log.d("ForceEthernet", "Polling: PluggedIn=$isPluggedIn, TetheringActive=$isTetheringActive, Silence=$inSilence, Cooldown=$inCooldown")
                 
-                // Refresh notification once a minute if silenced to update countdown
-                if (inSilence && now - lastNotificationRefresh > 60000) {
+                // Refresh notification if state changed or if silenced (to update countdown)
+                val stateChanged = isPluggedIn != lastPluggedIn || isTetheringActive != lastTetheringActive
+                val silenceRefreshNeeded = inSilence && now - lastNotificationRefresh > 60000
+                
+                if (stateChanged || silenceRefreshNeeded) {
+                    lastPluggedIn = isPluggedIn
+                    lastTetheringActive = isTetheringActive
                     lastNotificationRefresh = now
                     updateNotification()
                 }
@@ -95,10 +103,14 @@ class EthernetMonitorService : Service() {
     }
 
     private fun registerNetworkCallback() {
-        val request = NetworkRequest.Builder()
-            .clearCapabilities() // Remove default requirements like INTERNET
+        val builder = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-            .build()
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            builder.clearCapabilities() // Remove default requirements like INTERNET (API 30+)
+        }
+        
+        val request = builder.build()
         
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -144,11 +156,17 @@ class EthernetMonitorService : Service() {
         val silenceTime = silenceUntil.get()
         val isSilenced = now < silenceTime
         
-        val contentText = if (isSilenced) {
-            val remainingMins = ((silenceTime - now) / 60000) + 1
-            getString(R.string.status_silenced, remainingMins.toInt())
-        } else {
-            getString(R.string.status_watching)
+        val isPluggedIn = TetheringUtils.isEthernetPluggedIn()
+        val isTetheringActive = TetheringUtils.isEthernetTetheringActive()
+
+        val contentText = when {
+            isSilenced -> {
+                val remainingMins = ((silenceTime - now) / 60000) + 1
+                getString(R.string.status_silenced, remainingMins.toInt())
+            }
+            isTetheringActive -> getString(R.string.status_tethering_active)
+            isPluggedIn -> getString(R.string.status_plugged_in)
+            else -> getString(R.string.status_watching)
         }
 
         val silenceIntent = Intent(this, EthernetMonitorService::class.java).apply {

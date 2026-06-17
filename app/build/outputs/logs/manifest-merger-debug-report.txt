@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-50:12
-INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-50:12
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-55:12
+INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-55:12
+INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-55:12
+INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:2:1-55:12
 MERGED from [androidx.databinding:viewbinding:8.2.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\76fe8e83b59262c9b91b1a5a2c49b338\transformed\viewbinding-8.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\6095eada097a16069164a49236a122fa\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.work:work-runtime-ktx:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\3a94bdc019bace40fc7d7c450f62c2fb\transformed\work-runtime-ktx-2.9.0\AndroidManifest.xml:17:1-22:12
@@ -67,29 +67,41 @@ MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\cach
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:4:22-76
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:5:5-79
+	android:name
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:5:22-76
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:6:22-64
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:5:5-77
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:7:5-77
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:26:5-77
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:5:22-74
-uses-permission#android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:6:5-94
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:7:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_SPECIAL_USE
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:8:5-89
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:6:22-91
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:8:22-86
+uses-permission#android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:9:5-95
+	android:name
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:9:22-92
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:7:5-81
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:10:5-81
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:25:5-81
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:7:22-78
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:10:22-78
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:8:5-77
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:11:5-77
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:8:22-74
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:11:22-74
 application
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:10:5-49:19
-INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:10:5-49:19
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:13:5-54:19
+INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:13:5-54:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\6095eada097a16069164a49236a122fa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\6095eada097a16069164a49236a122fa\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.work:work-runtime:2.9.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\723ec7cf3905b1430443d906b889f899\transformed\work-runtime-2.9.0\AndroidManifest.xml:28:5-143:19
@@ -115,75 +127,81 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\uprasenjeet\.gradl
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\uprasenjeet\.gradle\caches\transforms-3\da024fe9a862a975dbe894dae3fd994a\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:13:9-41
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:16:9-41
 	android:icon
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:12:9-61
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:15:9-61
 	android:allowBackup
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:11:9-35
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:14:9-35
 	android:theme
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:14:9-65
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:17:9-51
 activity#com.example.forcethernet.MainActivity
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:16:9-21:20
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:19:9-24:20
 	android:exported
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:16:48-71
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:19:48-71
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:16:19-47
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:19:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:17:13-20:29
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:20:13-23:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:18:17-69
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:18:25-66
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:19:17-77
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:22:17-77
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:19:27-74
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:22:27-74
 activity#com.example.forcethernet.SetupActivity
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:23:9-25:40
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:26:9-28:40
 	android:exported
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:25:13-37
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:28:13-37
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:24:13-42
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:27:13-42
 service#com.example.forcethernet.EthernetMonitorService
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:27:9-30:40
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:30:9-35:19
 	android:exported
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:30:13-37
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:33:13-37
 	android:foregroundServiceType
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:29:13-60
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:32:13-55
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:28:13-51
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:31:13-51
+property
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:34:13-131
+	android:value
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:34:83-128
+	android:name
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:34:23-82
 service#com.example.forcethernet.TetheringAccessibilityService
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:32:9-42:19
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:37:9-47:19
 	android:exported
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:35:13-37
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:40:13-37
 	android:permission
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:34:13-79
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:39:13-79
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:33:13-58
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:38:13-58
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:36:13-38:29
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:41:13-43:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:37:17-92
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:42:17-92
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:37:25-89
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:42:25-89
 meta-data#android.accessibilityservice
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:39:13-41:72
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:44:13-46:72
 	android:resource
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:41:17-69
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:46:17-69
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:40:17-60
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:45:17-60
 receiver#com.example.forcethernet.BootReceiver
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:44:9-48:20
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:49:9-53:20
 	android:exported
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:44:48-71
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:49:48-71
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:44:19-47
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:49:19-47
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:45:13-47:29
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:50:13-52:29
 action#android.intent.action.BOOT_COMPLETED
-ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:46:17-79
+ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:51:17-79
 	android:name
-		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:46:25-76
+		ADDED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml:51:25-76
 uses-sdk
 INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\uprasenjeet\Documents\force_ethernet_thetering\app\src\main\AndroidManifest.xml

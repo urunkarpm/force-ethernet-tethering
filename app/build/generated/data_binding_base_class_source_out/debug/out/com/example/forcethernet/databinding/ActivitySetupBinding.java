@@ -4,15 +4,14 @@ package com.example.forcethernet.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.forcethernet.R;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -22,25 +21,25 @@ public final class ActivitySetupBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
-  public final Button btnNext;
+  public final MaterialButton btnNext;
 
   @NonNull
-  public final Button btnSkip;
+  public final MaterialButton btnSkip;
 
   @NonNull
-  public final FrameLayout stepContainer;
+  public final LinearLayout stepContainer;
 
   @NonNull
-  public final TextView stepIndicator;
+  public final LinearProgressIndicator stepProgress;
 
-  private ActivitySetupBinding(@NonNull LinearLayout rootView, @NonNull Button btnNext,
-      @NonNull Button btnSkip, @NonNull FrameLayout stepContainer,
-      @NonNull TextView stepIndicator) {
+  private ActivitySetupBinding(@NonNull LinearLayout rootView, @NonNull MaterialButton btnNext,
+      @NonNull MaterialButton btnSkip, @NonNull LinearLayout stepContainer,
+      @NonNull LinearProgressIndicator stepProgress) {
     this.rootView = rootView;
     this.btnNext = btnNext;
     this.btnSkip = btnSkip;
     this.stepContainer = stepContainer;
-    this.stepIndicator = stepIndicator;
+    this.stepProgress = stepProgress;
   }
 
   @Override
@@ -71,31 +70,31 @@ public final class ActivitySetupBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.btn_next;
-      Button btnNext = ViewBindings.findChildViewById(rootView, id);
+      MaterialButton btnNext = ViewBindings.findChildViewById(rootView, id);
       if (btnNext == null) {
         break missingId;
       }
 
       id = R.id.btn_skip;
-      Button btnSkip = ViewBindings.findChildViewById(rootView, id);
+      MaterialButton btnSkip = ViewBindings.findChildViewById(rootView, id);
       if (btnSkip == null) {
         break missingId;
       }
 
       id = R.id.step_container;
-      FrameLayout stepContainer = ViewBindings.findChildViewById(rootView, id);
+      LinearLayout stepContainer = ViewBindings.findChildViewById(rootView, id);
       if (stepContainer == null) {
         break missingId;
       }
 
-      id = R.id.step_indicator;
-      TextView stepIndicator = ViewBindings.findChildViewById(rootView, id);
-      if (stepIndicator == null) {
+      id = R.id.step_progress;
+      LinearProgressIndicator stepProgress = ViewBindings.findChildViewById(rootView, id);
+      if (stepProgress == null) {
         break missingId;
       }
 
       return new ActivitySetupBinding((LinearLayout) rootView, btnNext, btnSkip, stepContainer,
-          stepIndicator);
+          stepProgress);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

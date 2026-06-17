@@ -30,6 +30,8 @@
     <string name="status_disabled">DISABLED</string>
     <string name="status_silenced">Monitoring SILENCED (%1$d mins left)</string>
     <string name="status_watching">Watching for cable connection...</string>
+    <string name="status_plugged_in">Ethernet cable detected</string>
+    <string name="status_tethering_active">Ethernet tethering is ACTIVE</string>
 
     <!-- Notification Actions -->
     <string name="action_enable_now">ENABLE NOW</string>

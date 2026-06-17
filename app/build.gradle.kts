@@ -27,6 +27,26 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("../upload-keystore.jks")
+            storePassword = project.properties["RELEASE_STORE_PASSWORD"] as String
+            keyAlias = project.properties["RELEASE_KEY_ALIAS"] as String
+            keyPassword = project.properties["RELEASE_KEY_PASSWORD"] as String
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
 }
 
 dependencies {
