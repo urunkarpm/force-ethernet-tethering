@@ -40,38 +40,36 @@ A Wi-Fi router
 An Ethernet (LAN) cable
 A USB-C charger
 (Optional) A small enclosure or box to make the setup portable
-Step 1: Connect the Ethernet Cable
-Plug one end of the LAN cable into the RJ45 port on the USB-C dongle.
-Plug the other end into the WAN/Internet port of your Wi-Fi router.
-Step 2: Connect the Charger
-Connect your USB-C charger to the USB-C Power Delivery port on the dongle.
-This keeps your phone charged while it provides internet connectivity.
-Step 3: Connect Your Phone
-Connect your 5G smartphone to the USB-C dongle.
-Install the app, give permissions
-Your phone will automatically detect the Ethernet adapter and begin sharing its mobile data connection 
-Step 4: Prepare the Router
-Reset the router to its factory settings (recommended for first-time setup).
-Complete the basic setup by changing:
+
+
+#### Step 1: Connect the Ethernet Cable
+* Plug one end of the LAN cable into the RJ45 port on the USB-C dongle.
+* Plug the other end into the WAN/Internet port of your Wi-Fi router.
+#### Step 2: Connect the Charger
+* Connect your USB-C charger to the USB-C Power Delivery port on the dongle.
+* This keeps your phone charged while it provides internet connectivity.
+#### Step 3: Connect Your Phone
+* Connect your 5G smartphone to the USB-C dongle.
+* Install the [app](https://github.com/urunkarpm/force-ethernet-tethering/releases), give permissions
+* Your phone will automatically detect the Ethernet adapter and begin sharing its mobile data connection 
+#### Step 4: Prepare the Router
+* Reset the router to its factory settings (recommended for first-time setup).
+* Complete the basic setup by changing:
 Wi-Fi network name (SSID)
 Wi-Fi password
 No special WAN or internet settings are required—the router should automatically obtain an internet connection from the phone via Ethernet.
-Step 5: Power Everything On
+#### Step 5: Power Everything On
 Ensure:
-The charger is powered.
-The phone is connected to the dongle.
-The router is turned on.
-Within a few moments, the router should detect the internet connection automatically.
-Step 6: Connect Your Devices
-Connect your laptops, TVs, gaming consoles, or other devices to the router using Wi-Fi or Ethernet.
+* The charger is powered.
+* The phone is connected to the dongle.
+* The router is turned on.
+* Within a few moments, the router should detect the internet connection automatically.
+#### Step 6: Connect Your Devices
+* Connect your laptops, TVs, gaming consoles, or other devices to the router using Wi-Fi or Ethernet.
 They will now access the internet through your phone's 5G connection.
-Optional: Build a Portable Wi-Fi Station
 
-For a clean and travel-friendly setup, place the following components inside a compact enclosure:
+### Optional: Build a Portable Wi-Fi Station
 
-Wi-Fi router
-USB-C Ethernet dongle
-Charger
-Cables
+* For a clean and travel-friendly setup, place the following components inside a compact enclosure:
 
-This creates a portable Wi-Fi station that can be moved anywhere with power and 5G coverage. If you ever need to use your phone separately, simply unplug it from the dongle. When you reconnect it later, the setup resumes automatically—there's no need to reconfigure the router or repeat the setup process.
+* This creates a portable Wi-Fi station that can be moved anywhere with power and 5G coverage. If you ever need to use your phone separately, simply unplug it from the dongle. When you reconnect it later, the setup resumes automatically—there's no need to reconfigure the router or repeat the setup process.
