@@ -2,6 +2,12 @@
 
 Force Ethernet Tethering is a specialized Android utility designed to automate and maintain Ethernet tethering connectivity. 
 
+<img width="200" height="420" alt="1" src="https://github.com/user-attachments/assets/1a65a68d-56c1-4644-b832-a2decc8d9eb6"/> 
+<img width="200" height="420" alt="2" src="https://github.com/user-attachments/assets/54dc9cb1-c983-4c8b-8874-173d89d845a3" /> 
+<img width="200" height="420" alt="4" src="https://github.com/user-attachments/assets/17a47896-0bb2-4a39-825d-3c2024d128f4" />
+<img width="200" height="420" alt="3" src="https://github.com/user-attachments/assets/0b9a1c04-d17b-430d-a517-5c23111bae57" />
+
+
 ### What it does
 
 The primary goal of this application is to ensure that Ethernet tethering remains active whenever a compatible USB Ethernet adapter is connected to the device. It removes the need for manual intervention by automatically toggling the system's tethering settings.
